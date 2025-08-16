@@ -60,14 +60,14 @@ function getDate(param){
 function viewTransaction(){
     let displayIncome = terminalBox(color.neutralText(`income: ${income}`));
     let displayExpense = terminalBox(color.neutralText(`Expense: ${expense}`));
-    let displayTotalBalance = terminalBox(color.neutralText(`displayTotalBalance: ${totalBalance}`));
+    let displayTotalBalance = terminalBox(color.neutralText(`Total Balance: ${totalBalance}`));
 
    return `    ${color.header("VIEW TRANSACTION")}
          ${getDate("month")}th month,${getDate("year")} 
 ${displayTotalBalance}
 ${displayIncome}
 ${displayExpense}
-            ========== ${date.toDateString()}=========
+            ========== ${date.toDateString()} =========
 ${color.neutralText('no transaction for now')} 
 `
 }
@@ -88,7 +88,6 @@ ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view repor
 //user input in order to navigate through app features
 let userAction = Number(prompt("what do you want to do(enter in numbers): "));
 clear();
-//TODO:create a switch case for each input entered to give a specific feature
 while(!(userAction===6))
 switch(userAction){
     case 1:
