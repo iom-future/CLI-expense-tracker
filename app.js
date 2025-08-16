@@ -4,6 +4,7 @@ import boxen from 'boxen';
 import chalk from 'chalk';
 import clear from 'clear';
 const prompt = promptSync();
+import { addExpense, loadExpenses } from "./expenseManager.js";
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
@@ -68,12 +69,25 @@ ${displayTotalBalance}
 ${displayIncome}
 ${displayExpense}
             ========== ${date.toDateString()} =========
-${color.neutralText('no transaction for now')} 
+            
+${loadExpenses()} 
 `
 }
 function addTransaction() {
-
+    let incomeOrExpenses = prompt('add income or expense(I/E): ').toUpperCase();
+//decide if it's adding an income or expense
+        switch (incomeOrExpenses) {
+            case 'I':
+                break;
+            case 'E':
+                let description = prompt('what did you spend on: ');
+                let amount = prompt("how much did you spend: ");
+                // add an expense
+                addExpense(description,amount);
+        }
 }
+
+
 function viewReport(){
 
 }
