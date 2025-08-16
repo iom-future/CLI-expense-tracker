@@ -74,6 +74,15 @@ ${color.neutralText('no transaction for now')}
 function addTransaction() {
 
 }
+function viewReport(){
+
+}
+function setSavingGoal(){
+
+}
+function profile(){
+
+}
 console.log('lets personalize your app');
 let userName = prompt("what's your name: ");
 //welcome message below
@@ -96,5 +105,18 @@ switch(userAction){
         break;
     case 2:
         addTransaction()
+        userAction = Number(prompt("what do you want to do(enter in numbers): "));
+        break;
+    case 3:
+       viewReport()
+       userAction = Number(prompt("what do you want to do(enter in numbers): "));
+       break;
+    case 5:
+        setSavingGoal()
+        userAction = Number(prompt("what do you want to do(enter in numbers): "));
+        break;
+    case 6:
+        profile();
+        userAction = Number(prompt("what do you want to do(enter in numbers): "));
         break;
 }
