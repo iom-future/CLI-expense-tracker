@@ -4,7 +4,6 @@ import boxen from 'boxen';
 import chalk from 'chalk';
 import clear from 'clear';
 const prompt = promptSync();
-
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
@@ -16,7 +15,7 @@ function terminalBox (text){
             padding: 0,
             borderStyle: "round",
             textAlignment: "center",
-            margin:{left:3}
+            margin:{left:1}
         });
 }
 
@@ -25,7 +24,7 @@ const color = {
     banner : (message)=>chalk.cyanBright(message),
     header : (message)=>chalk.yellowBright.bold(message),
     //text: (message)=>chalk.blackBright(message),
-    neutralText : (message)=>chalk.whiteBright(message),
+    neutralText : (message,message2='')=>chalk.whiteBright(message,message2),
     success : (message)=>chalk.greenBright(message),
     error : (message)=>chalk.redBright(message),
     warning : (message)=>chalk.yellow(message),
@@ -64,10 +63,13 @@ function viewTransaction(){
     let displayTotalBalance = terminalBox(color.neutralText(`displayTotalBalance: ${totalBalance}`));
 
    return `    ${color.header("VIEW TRANSACTION")}
-        < ${getDate("month")},${getDate("year")} >
+         ${getDate("month")}th month,${getDate("year")} 
 ${displayTotalBalance}
 ${displayIncome}
-${displayExpense}`
+${displayExpense}
+            ========== ${date.toDateString()}=========
+${color.neutralText('no transaction for now')} 
+`
 }
 function addTransaction() {
 
@@ -75,7 +77,7 @@ function addTransaction() {
 console.log('lets personalize your app');
 let userName = prompt("what's your name: ");
 //welcome message below
-console.log(`${getTime()} ${userName}
+console.log(`${color.neutralText(getTime(),userName)}
     ${color.banner(`Welcome to ${color.neutralText('Future Expense Tracker')}
  A place to budget,save and track income`)}
  
@@ -87,10 +89,11 @@ ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view repor
 let userAction = Number(prompt("what do you want to do(enter in numbers): "));
 clear();
 //TODO:create a switch case for each input entered to give a specific feature
+while(!(userAction===6))
 switch(userAction){
     case 1:
-
        console.log(viewTransaction());
+       userAction = Number(prompt("what do you want to do(enter in numbers): "));
         break;
     case 2:
         addTransaction()
