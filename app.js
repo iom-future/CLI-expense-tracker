@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import clear from 'clear';
 const prompt = promptSync();
 import { addExpense, loadExpenses } from "./expenseManager.js";
+import { addIncome, loadIncomes } from "./incomeManager.js";
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
@@ -70,7 +71,8 @@ ${displayIncome}
 ${displayExpense}
             ========== ${date.toDateString()} =========
             
-${loadExpenses()} 
+ ${loadIncomes()}
+ ${loadExpenses()}
 `
 }
 function addTransaction() {
@@ -78,12 +80,18 @@ function addTransaction() {
 //decide if it's adding an income or expense
         switch (incomeOrExpenses) {
             case 'I':
+                let descriptionForIncome = prompt('How did you earn: ');
+                let amountForIncome = prompt("How much did you earn: ");
+                // add an income
+
+
+                addIncome(descriptionForIncome,amountForIncome);
                 break;
             case 'E':
-                let description = prompt('what did you spend on: ');
-                let amount = prompt("how much did you spend: ");
+                let descriptionForExpense = prompt('What did you spend on: ');
+                let amountForExpense = prompt("How much did you spend: ");
                 // add an expense
-                addExpense(description,amount);
+                addExpense(descriptionForExpense,amountForExpense);
         }
 }
 
