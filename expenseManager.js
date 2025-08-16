@@ -15,7 +15,7 @@ export function loadExpenses() {
     const data = fs.readFileSync(FILE);
 
     // turn the string into JavaScript (like magic)
-    return [JSON.parse(data)];
+    return JSON.parse(data);
 }
 
 // 💾 save expenses back to the file
