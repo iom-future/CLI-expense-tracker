@@ -3,9 +3,11 @@ import promptSync from 'prompt-sync'
 import boxen from 'boxen';
 import chalk from 'chalk';
 import clear from 'clear';
+import {addExpense, loadExpenses} from "./expenseManager.js";
+import {addIncome, loadIncomes} from "./incomeManager.js";
 const prompt = promptSync();
-import { addExpense, loadExpenses } from "./expenseManager.js";
-import { addIncome, loadIncomes } from "./incomeManager.js";
+let totalTransactionData = loadIncomes().concat(loadExpenses())
+//TODO:get the sum of the amount property from the load expenses and income returned array
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
@@ -20,8 +22,7 @@ function terminalBox (text){
             margin:{left:1}
         });
 }
-
-//an object that allows you use different colors in specific situation
+//an object that allows you to use different colors in specific situation
 const color = {
     banner : (message)=>chalk.cyanBright(message),
     header : (message)=>chalk.yellowBright.bold(message),
@@ -32,6 +33,8 @@ const color = {
     warning : (message)=>chalk.yellow(message),
     info : (message)=>chalk.blueBright(message),
 }
+
+
 //A function that gets the time in order to greet user accordingly
 const date = new Date;
 function getTime(){
@@ -58,41 +61,49 @@ function getDate(param){
 
 
 }
+
+
+
 //App features in different functions
 function viewTransaction(){
     let displayIncome = terminalBox(color.neutralText(`income: ${income}`));
     let displayExpense = terminalBox(color.neutralText(`Expense: ${expense}`));
     let displayTotalBalance = terminalBox(color.neutralText(`Total Balance: ${totalBalance}`));
-
-   return `    ${color.header("VIEW TRANSACTION")}
-         ${getDate("month")}th month,${getDate("year")} 
+    return `    ${color.header("VIEW TRANSACTION")}
+         ${
+        getDate("month")}th month,${getDate("year")} 
 ${displayTotalBalance}
 ${displayIncome}
 ${displayExpense}
-            ========== ${date.toDateString()} =========
-            
- ${loadIncomes()}
- ${loadExpenses()}
+            ========== ${date.toDateString()} ========= 
 `
 }
 function addTransaction() {
     let incomeOrExpenses = prompt('add income or expense(I/E): ').toUpperCase();
 //decide if it's adding an income or expense
+let isRunning =true;
+while(isRunning) {
         switch (incomeOrExpenses) {
             case 'I':
                 let descriptionForIncome = prompt('How did you earn: ');
-                let amountForIncome = prompt("How much did you earn: ");
+                let amountForIncome = Number(prompt("How much did you earn: "));
                 // add an income
-
-
-                addIncome(descriptionForIncome,amountForIncome);
+                addIncome(descriptionForIncome, amountForIncome);
+                isRunning =false;
                 break;
             case 'E':
                 let descriptionForExpense = prompt('What did you spend on: ');
-                let amountForExpense = prompt("How much did you spend: ");
+                let amountForExpense = Number(prompt("How much did you spend: "));
                 // add an expense
-                addExpense(descriptionForExpense,amountForExpense);
+                addExpense(descriptionForExpense, amountForExpense);
+                isRunning =false;
+                break
+            default:
+                incomeOrExpenses = prompt("INPUT NOT SUPPORTED\ " +
+                    "add income or expense(I/E): ").toUpperCase();
+                break;
         }
+   }
 }
 
 
@@ -106,7 +117,12 @@ function profile(){
 
 }
 console.log('lets personalize your app');
+
 let userName = prompt("what's your name: ");
+//take some time before displaying to make it look real
+/*setTimeout(()=>{console.log('preparing app◽◽◽◽◽◽◽')},2000);
+setTimeout(()=>{console.log('setting theme◽◽◽◽◽◽◽')},5000);*/
+
 //welcome message below
 console.log(`${color.neutralText(getTime(),userName)}
     ${color.banner(`Welcome to ${color.neutralText('Future Expense Tracker')}
@@ -119,26 +135,33 @@ ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view repor
 //user input in order to navigate through app features
 let userAction = Number(prompt("what do you want to do(enter in numbers): "));
 clear();
-while(!(userAction===6))
-switch(userAction){
-    case 1:
-       console.log(viewTransaction());
-       userAction = Number(prompt("what do you want to do(enter in numbers): "));
-        break;
-    case 2:
-        addTransaction()
-        userAction = Number(prompt("what do you want to do(enter in numbers): "));
-        break;
-    case 3:
-       viewReport()
-       userAction = Number(prompt("what do you want to do(enter in numbers): "));
-       break;
-    case 5:
-        setSavingGoal()
-        userAction = Number(prompt("what do you want to do(enter in numbers): "));
-        break;
-    case 6:
-        profile();
-        userAction = Number(prompt("what do you want to do(enter in numbers): "));
-        break;
+while(!(userAction===6)) {
+    switch (userAction) {
+        case 1:
+            console.log(viewTransaction());
+            totalTransactionData.forEach(inputtedIncome => {
+console.log(`${color.neutralText(inputtedIncome.description)}:#${color.success(inputtedIncome.amount)}
+----------------------------------------------------------------   
+   `)
+            });
+            break;
+        case 2:
+            addTransaction()
+            break;
+        case 3:
+            viewReport()
+            break;
+        case 5:
+            setSavingGoal();
+            break;
+        case 6:
+            profile();
+
+            break;
+        default:
+            userAction = Number(prompt("INPUT NOT SUPPORTED\ " +
+                "What do you want to do(enter in numbers): "));
+
+    }
+    userAction = Number(prompt("what do you want to do(enter in numbers): "));
 }

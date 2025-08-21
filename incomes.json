@@ -1,20 +1,2 @@
 [
-  {
-    "id": 1755361891789,
-    "description": "salary",
-    "amount": "20000",
-    "date": "2025-08-16T16:31:31.789Z"
-  },
-  {
-    "id": 1755361917236,
-    "description": "gift",
-    "amount": "1000",
-    "date": "2025-08-16T16:31:57.236Z"
-  },
-  {
-    "id": 1755361971555,
-    "description": "chtistmas gift",
-    "amount": "30000",
-    "date": "2025-08-16T16:32:51.555Z"
-  }
 ]
