@@ -6,8 +6,7 @@ import clear from 'clear';
 import {addExpense, loadExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes} from "./incomeManager.js";
 const prompt = promptSync();
-let totalTransactionData = loadIncomes().concat(loadExpenses())
-//TODO:get the sum of the amount property from the load expenses and income returned array
+
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
@@ -34,7 +33,16 @@ const color = {
     info : (message)=>chalk.blueBright(message),
 }
 
-
+//TODO: make a display transaction list array for income and expense that displays the message
+// with the right color coding the concat both then do the action below
+let totalIncomeTransaction = loadIncomes().map(inputtedIncome => {
+   return `${color.neutralText(inputtedIncome.description)}:#${color.success(inputtedIncome.amount)}`})
+let totalExpenseTransaction = loadExpenses().map(inputtedIncome => {
+    return `${color.neutralText(inputtedIncome.description)}:#${color.error(inputtedIncome.amount)}`})
+//TODO:sort totalTransactionData based on ID so it chronologically arranged
+let totalTransactionData = totalIncomeTransaction.concat(totalExpenseTransaction).sort();
+//TODO:get the sum of the amount property from the load expenses and income returned array
+//console.log(totalTransactionData);
 //A function that gets the time in order to greet user accordingly
 const date = new Date;
 function getTime(){
@@ -139,11 +147,7 @@ while(!(userAction===6)) {
     switch (userAction) {
         case 1:
             console.log(viewTransaction());
-            totalTransactionData.forEach(inputtedIncome => {
-console.log(`${color.neutralText(inputtedIncome.description)}:#${color.success(inputtedIncome.amount)}
-----------------------------------------------------------------   
-   `)
-            });
+            totalTransactionData.forEach(data=>console.log(data));
             break;
         case 2:
             addTransaction()
@@ -156,7 +160,6 @@ console.log(`${color.neutralText(inputtedIncome.description)}:#${color.success(i
             break;
         case 6:
             profile();
-
             break;
         default:
             userAction = Number(prompt("INPUT NOT SUPPORTED\ " +

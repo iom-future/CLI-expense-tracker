@@ -1,2 +1,20 @@
 [
+  {
+    "id": 1755740151410,
+    "description": "salary",
+    "amount": 20000,
+    "date": "2025-08-21T01:35:51.410Z"
+  },
+  {
+    "id": 1755742688524,
+    "description": "gift",
+    "amount": 2000,
+    "date": "2025-08-21T02:18:08.524Z"
+  },
+  {
+    "id": 1755742839956,
+    "description": "gift card from survey site",
+    "amount": 2100,
+    "date": "2025-08-21T02:20:39.956Z"
+  }
 ]

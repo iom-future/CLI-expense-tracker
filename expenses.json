@@ -1,2 +1,20 @@
 [
+  {
+    "id": 1755740228450,
+    "description": "movie night",
+    "amount": 1000,
+    "date": "2025-08-21T01:37:08.450Z"
+  },
+  {
+    "id": 1755742763770,
+    "description": "bought a picture book for diana",
+    "amount": 9000,
+    "date": "2025-08-21T02:19:23.770Z"
+  },
+  {
+    "id": 1755742803453,
+    "description": "repaired my bicycle",
+    "amount": 5000,
+    "date": "2025-08-21T02:20:03.453Z"
+  }
 ]
