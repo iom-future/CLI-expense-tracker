@@ -32,7 +32,8 @@ export function addIncome(description, amount) {
     const income = {
         id: Date.now(),               // unique ID
         description,                  // what we spent on
-        amount,                       // how much
+        amount, // how much
+        category:'income',
         date: new Date().toISOString() // when
     };
 

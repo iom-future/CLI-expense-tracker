@@ -5,13 +5,14 @@ import chalk from 'chalk';
 import clear from 'clear';
 import {addExpense, loadExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes} from "./incomeManager.js";
+
 const prompt = promptSync();
 
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
 let totalBalance = income -expense;
-//a function that structure the boxes in a consistent manner
+//a function that structure the boxes consistently
 function terminalBox (text){
     return boxen(text,
         {
@@ -32,18 +33,18 @@ const color = {
     warning : (message)=>chalk.yellow(message),
     info : (message)=>chalk.blueBright(message),
 }
-
-//TODO: make a display transaction list array for income and expense that displays the message
-// with the right color coding the concat both then do the action below
-let totalIncomeTransaction = loadIncomes().map(inputtedIncome => {
-   return `${color.neutralText(inputtedIncome.description)}:#${color.success(inputtedIncome.amount)}`})
-let totalExpenseTransaction = loadExpenses().map(inputtedIncome => {
-    return `${color.neutralText(inputtedIncome.description)}:#${color.error(inputtedIncome.amount)}`})
+function displayTotalTransactionData() {
+   /* let incomeID = loadIncomes().map(incomeObj=>{return incomeObj.id});
+    let expenseID = loadExpenses().map(expenseObj=>{return expenseObj.id});
+    let totalId = incomeID.concat(expenseID).sort();*/
+    //concat loadExpenses() and loadIncomes() array then sort based on the time entered [sort chronologically]using the ID
 //TODO:sort totalTransactionData based on ID so it chronologically arranged
-let totalTransactionData = totalIncomeTransaction.concat(totalExpenseTransaction).sort();
 //TODO:get the sum of the amount property from the load expenses and income returned array
+    return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
 //console.log(totalTransactionData);
-//A function that gets the time in order to greet user accordingly
+}
+
+//A function that gets the time to greet user accordingly
 const date = new Date;
 function getTime(){
 
@@ -140,14 +141,19 @@ console.log(`${color.neutralText(getTime(),userName)}
 📃view transaction  🖋add transaction  📊View report  💰Set saving goals  👩Profile  ❌ Exit App
 ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view report......'))}
  `)
-//user input in order to navigate through app features
+//user input to navigate through app features
 let userAction = Number(prompt("what do you want to do(enter in numbers): "));
 clear();
 while(!(userAction===6)) {
     switch (userAction) {
         case 1:
             console.log(viewTransaction());
-            totalTransactionData.forEach(data=>console.log(data));
+            displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
+                 console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)}`);
+
+            }else{
+                console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}`);
+            }})
             break;
         case 2:
             addTransaction()
