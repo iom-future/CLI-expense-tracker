@@ -35,13 +35,8 @@ const color = {
     info : (message)=>chalk.blueBright(message),
 }
 function displayTotalTransactionData() {
-   /* let incomeID = loadIncomes().map(incomeObj=>{return incomeObj.id});
-    let expenseID = loadExpenses().map(expenseObj=>{return expenseObj.id});
-    let totalId = incomeID.concat(expenseID).sort();*/
     //concat loadExpenses() and loadIncomes() array then sort based on the time entered [sort chronologically]using the ID
-//TODO:sort totalTransactionData based on ID so it chronologically arranged
-//TODO:get the sum of the amount property from the load expenses and income returned array
-    let transactionTable = new Table({
+/*    let transactionTable = new Table({
         head: ['description','amount'],
         style: {"padding-left":1,"padding-right":1},
         chars:{
@@ -52,18 +47,11 @@ function displayTotalTransactionData() {
             right:'','right-mid':'',
             middle:' '
         }
-    });
-
-    let collection = [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id) //an array of sorted object
-    let mapped =collection.map(obj=>{
-    return[`${obj.description}${obj.amount}`]})
-    //console.log(...mapped);
-    transactionTable.push(...mapped)
-    return transactionTable.toString();
-   // return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
+    });*/
+    return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
 //console.log(totalTransactionData);
 }
-console.log(displayTotalTransactionData());
+
 //A function that gets the time to greet user accordingly
 const date = new Date;
 function getTime(){
@@ -137,10 +125,11 @@ while(isRunning) {
 
 
 function viewReport(){
-
+    console.log('under construction');
 }
 function setSavingGoal(){
-
+      let savingPurpose = prompt('what are you saving for: ');
+      let savingAmount = Number(prompt('how much do you plan on saving'))
 }
 function profile(){
 
@@ -175,13 +164,13 @@ while(!(userAction===6)) {
     switch (userAction) {
         case 1:
             console.log(viewTransaction());
-          /*  displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
+           displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
                  console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)}`);
 
             }else{
                 console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}`);
             }})
-            break;*/
+            break;
         case 2:
             addTransaction()
             break;
