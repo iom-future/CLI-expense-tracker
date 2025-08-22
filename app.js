@@ -3,9 +3,10 @@ import promptSync from 'prompt-sync'
 import boxen from 'boxen';
 import chalk from 'chalk';
 import clear from 'clear';
+import figlet from 'figlet'
+import Table from 'cli-table3'
 import {addExpense, loadExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes} from "./incomeManager.js";
-
 const prompt = promptSync();
 
 //VARIABLES
@@ -40,10 +41,29 @@ function displayTotalTransactionData() {
     //concat loadExpenses() and loadIncomes() array then sort based on the time entered [sort chronologically]using the ID
 //TODO:sort totalTransactionData based on ID so it chronologically arranged
 //TODO:get the sum of the amount property from the load expenses and income returned array
-    return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
+    let transactionTable = new Table({
+        head: ['description','amount'],
+        style: {"padding-left":1,"padding-right":1},
+        chars:{
+            top:'',"top-mid":'',"top-left":'',"top-right":'',
+            bottom:'',"bottom-mid":'',"bottom-left":'',"bottom-right":'',
+            left:'','left-mid':'',
+            mid:'','mid-mid':'',
+            right:'','right-mid':'',
+            middle:' '
+        }
+    });
+
+    let collection = [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id) //an array of sorted object
+    let mapped =collection.map(obj=>{
+    return[`${obj.description}${obj.amount}`]})
+    //console.log(...mapped);
+    transactionTable.push(...mapped)
+    return transactionTable.toString();
+   // return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
 //console.log(totalTransactionData);
 }
-
+console.log(displayTotalTransactionData());
 //A function that gets the time to greet user accordingly
 const date = new Date;
 function getTime(){
@@ -84,7 +104,7 @@ function viewTransaction(){
 ${displayTotalBalance}
 ${displayIncome}
 ${displayExpense}
-            ========== ${date.toDateString()} ========= 
+            ========== ${date.toDateString()} =========     
 `
 }
 function addTransaction() {
@@ -134,6 +154,13 @@ setTimeout(()=>{console.log('setting theme◽◽◽◽◽◽◽')},5000);*/
 
 //welcome message below
 console.log(`${color.neutralText(getTime(),userName)}
+        ${figlet.textSync("Future Expense Tracker", {
+    font: "Big",
+    horizontalLayout: "fitted",
+    verticalLayout: "default",
+  //  width: 100,
+    //whitespaceBreak: true,
+})}
     ${color.banner(`Welcome to ${color.neutralText('Future Expense Tracker')}
  A place to budget,save and track income`)}
  
@@ -148,13 +175,13 @@ while(!(userAction===6)) {
     switch (userAction) {
         case 1:
             console.log(viewTransaction());
-            displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
+          /*  displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
                  console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)}`);
 
             }else{
                 console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}`);
             }})
-            break;
+            break;*/
         case 2:
             addTransaction()
             break;

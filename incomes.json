@@ -1,3 +1,23 @@
 [
-
+  {
+    "id": 1755768478997,
+    "description": "2000",
+    "amount": 3000,
+    "category": "income",
+    "date": "2025-08-21T09:27:58.997Z"
+  },
+  {
+    "id": 1755768527552,
+    "description": "gift",
+    "amount": 30000,
+    "category": "income",
+    "date": "2025-08-21T09:28:47.552Z"
+  },
+  {
+    "id": 1755842842628,
+    "description": null,
+    "amount": 0,
+    "category": "income",
+    "date": "2025-08-22T06:07:22.628Z"
+  }
 ]
