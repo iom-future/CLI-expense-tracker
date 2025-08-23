@@ -95,7 +95,7 @@ ${displayExpense}
             ========== ${date.toDateString()} =========     
 `
 }
-function addTransaction() {
+function addTransaction(){
     let incomeOrExpenses = prompt('add income or expense(I/E): ').toUpperCase();
 //decide if it's adding an income or expense
 let isRunning =true;
@@ -104,6 +104,7 @@ while(isRunning) {
             case 'I':
                 let descriptionForIncome = prompt('How did you earn: ');
                 let amountForIncome = Number(prompt("How much did you earn: "));
+                let tagForIncome = prompt('enter tag: ');
                 // add an income
                 addIncome(descriptionForIncome, amountForIncome);
                 isRunning =false;

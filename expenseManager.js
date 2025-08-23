@@ -28,7 +28,8 @@ export function saveExpenses(expenses) {
 
 // ➕ add a new expense
 export function addExpense(description, amount) {
-    let expenses = loadExpenses();
+    let expenses = loadExpenses(); //array of transaction [{transaction 1,transaction2,ets...}]
+    //create a new object of transaction
     const expense = {
         id: Date.now(),               // unique ID
         description,                  // what we spent on
@@ -37,7 +38,7 @@ export function addExpense(description, amount) {
         date: new Date().toISOString() // when
     };
 
-    // put this new block in the box
+    // put this new object into the array of object
     expenses.push(expense);
 
     // save the box again
