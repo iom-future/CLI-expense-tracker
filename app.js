@@ -7,8 +7,11 @@ import figlet from 'figlet'
 import Table from 'cli-table3'
 import {addExpense, loadExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes} from "./incomeManager.js";
+import {setSaving, loadSavingGoals} from "./savingManager.js";
 const prompt = promptSync();
 
+//TODO:make multi select input style
+//TODO:download davinciresolve
 //VARIABLES
 let income = 0.00;
 let expense = 0.00;
@@ -96,10 +99,10 @@ ${displayExpense}
 `
 }
 function addTransaction(){
-    let incomeOrExpenses = prompt('add income or expense(I/E): ').toUpperCase();
+    let incomeOrExpenses = prompt('add income or expense(I/E/Exit): ').toUpperCase();
 //decide if it's adding an income or expense
 let isRunning =true;
-while(isRunning) {
+while(isRunning && incomeOrExpenses!=='EXIT') {
         switch (incomeOrExpenses) {
             case 'I':
                 let descriptionForIncome = prompt('How did you earn: ');
@@ -130,14 +133,19 @@ function viewReport(){
 }
 function setSavingGoal(){
       let savingPurpose = prompt('what are you saving for: ');
-      let savingAmount = Number(prompt('how much do you plan on saving'))
+      let savingAmount = Number(prompt('how much do you plan on saving'));
+      let tag = prompt('enter tag: ');
+      setSaving(savingPurpose,savingAmount,tag);
+      console.log('saving goal set successfully')
 }
 function profile(){
 
 }
 console.log('lets personalize your app');
-
+//set up  profile
 let userName = prompt("what's your name: ");
+//TODO:get an object that has lots of country and their currency (key:value pair)
+let countryCurrency = prompt('what country are you from: ');
 //take some time before displaying to make it look real
 /*setTimeout(()=>{console.log('preparing app◽◽◽◽◽◽◽')},2000);
 setTimeout(()=>{console.log('setting theme◽◽◽◽◽◽◽')},5000);*/

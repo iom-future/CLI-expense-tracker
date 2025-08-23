@@ -6,7 +6,7 @@ import {loadExpenses} from "./expenseManager.js";
 const FILE = 'saving.json'; //why in qoutes
 
 //read all the expense from the file and convert them to object
-export function savingGoals() {
+export function loadSavingGoals() {
     // if there is no file yet, return an empty array
      if (!fs.existsSync(FILE)){
          return [];
@@ -32,14 +32,14 @@ export function saveSavingGoal(savings){
 
 //add a saving goal
 export function setSaving(purpose='none',amount=0,tag='none') {
-    let savings =savingGoals(); //array of transaction [{transaction 1,transaction2,ets...}]
+    let savings =loadSavingGoals(); //array of transaction [{transaction 1,transaction2,ets...}]
     //create a new object of transaction
     const saving={
         id:Date.now(),
         purpose,
         amount,
         tag,
-        date: new Date.toDate()
+        date: new Date().toDateString()
     }
     //put the new saving object into the array of object
     savings.push(saving);
