@@ -4,30 +4,15 @@ import boxen from 'boxen';
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet'
+import fs from 'fs';
 import Table from 'cli-table3'
 import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
 import {setSaving, loadSavingGoals} from "./savingManager.js";
 const prompt = promptSync();
-
-
 import inquirer from "inquirer";
 
-async function mainMenu() {
-    const answer = await inquirer.prompt([
-        {
-            type: "list",   // 'list' gives you the arrow > navigation
-            name: "action", // this is the key to store your choice
-            message: "What would you like to do?",
-            choices: [
-                "Exit App",
-                "Add Transaction",
-                "View Transactions",
-                "Generate Report"
-            ]
-        }
-    ]);
-}
+
 //TODO:make multi select input style
 //TODO:download davinciresolve
 //VARIABLES
@@ -127,16 +112,17 @@ while(isRunning && incomeOrExpenses!=='EXIT') {
                 let amountForIncome = Number(prompt("How much did you earn: "));
                 let tagForIncome = prompt('enter tag: ');
                 // add an income
-                addIncome(descriptionForIncome, amountForIncome);
+                addIncome(descriptionForIncome, amountForIncome,tagForIncome);
                 isRunning =false;
                 break;
             case 'E':
                 let descriptionForExpense = prompt('What did you spend on: ');
                 let amountForExpense = Number(prompt("How much did you spend: "));
+                let tagForExpense= prompt('enter tag: ');
                 // add an expense
-                addExpense(descriptionForExpense, amountForExpense);
+                addExpense(descriptionForExpense, amountForExpense, tagForExpense);
                 isRunning =false;
-                break
+                break;
             default:
                 incomeOrExpenses = prompt("INPUT NOT SUPPORTED\ " +
                     "add income or expense(I/E): ").toUpperCase();
@@ -146,13 +132,47 @@ while(isRunning && incomeOrExpenses!=='EXIT') {
 }
 
 function updateTransaction() {
-    let id = prompt('whats the id of the transaction you want to update: ')
-    //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
-    let newPurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
-    let newAmount = prompt('change amount(hit enter to leave amount): ')  || undefined;
-    let newTag =  prompt('change tag(hit enter to leave tag): ')  || undefined;
-    updateExpenses(id,newPurpose,newAmount,newTag);
+    let updateIncomeOrExpense = prompt('what do you want to edit income or expense(I/E/exit): ').toUpperCase();
+    let isRunning =true;
+    while(isRunning && updateIncomeOrExpense!=='EXIT') {
+        switch (updateIncomeOrExpense) {
+            case 'I':
+                if(loadIncomes().length !== 0) {
+                    let incomeID = prompt('whats the id of the transaction you want to update: ')
+                    //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
+                    let newIncomePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
+                    let newIncomeAmount = prompt('change amount(hit enter to leave amount): ') || undefined;
+                    let newIncomeTag = prompt('change tag(hit enter to leave tag): ') || undefined;
+                    updateIncomes(incomeID, newIncomePurpose, newIncomeAmount, newIncomeTag);
+                    console.log('transaction updated successfully');
+                    isRunning = false;
+                    break;
+                }else{console.log('no transaction to edit');
+                    isRunning = false;
+                break;}
+            case 'E':
+                if(loadExpenses().length !== 0) {
+                let expenseID = prompt('whats the id of the transaction you want to update: ')
+                //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
+                let newExpensePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
+                let newExpenseAmount = prompt('change amount(hit enter to leave amount): ')  || undefined;
+                let newExpenseTag =  prompt('change tag(hit enter to leave tag): ')  || undefined;
+                updateExpenses(expenseID,newExpensePurpose,newExpenseAmount,newExpenseTag);
+                isRunning =false;
+                break;
+                }else{console.log('no transaction to edit') ;
+                    isRunning = false;
+                    break}
+            default:
+                updateIncomeOrExpense = prompt("INPUT NOT SUPPORTED\ " +
+                    "what do you want to edit income or expense(I/E/exit): ").toUpperCase();
+                break;
+        }
+    }
+
 }
+
+
 function viewReport(){
     console.log('under construction');
 }
@@ -217,11 +237,10 @@ while(!(userAction===6)) {
         case 1:
             console.log(viewTransaction());
            displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
-                 console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)}`);
-
+                 console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)} with id ${obj.id}`);
             }else{
-                console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}`);
-            }})
+                console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}  with id ${obj.id}`);
+            }});
             break;
         case 2:
             addTransaction()
@@ -242,3 +261,56 @@ while(!(userAction===6)) {
     }
     userAction = Number(prompt("what do you want to do(enter in numbers): "));
 }
+/*
+let userInput;
+async function input() {
+        const answer = await inquirer.prompt([
+            {
+                type: "list",   // 'list' gives you the arrow > navigation
+                name: "action", // this is the key to store your choice
+                message: "What would you like to do?",
+                choices: [
+                    "Exit App",
+                    "Add Transaction",
+                    "View Transactions",
+                    "Generate Report"
+                ]
+            }
+        ]);
+userInput=answer.action;
+        console.log("You selected:", answer.action);
+        switch (answer.action) {
+            case "Exit App":
+                console.log("Goodbye 👋");
+                process.exit(0);
+            case "Add Transaction":
+                // call your add function
+                console.log("🚀 Add a new transaction here...");
+                addTransaction();
+                break;
+            case "View Transactions":
+                // call your view function
+                console.log("📜 Viewing all transactions...");
+                console.log(viewTransaction());
+                displayTotalTransactionData().forEach(obj => {
+                    if (obj.category === 'income') {
+                        console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)}`);
+
+                    } else {
+                        console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}`);
+                    }
+                });
+                break;
+            case "Generate Report":
+                console.log("📊 Report generated...");
+                break;
+            default:
+
+
+        }
+
+    }
+input();
+
+
+*/

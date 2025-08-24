@@ -57,13 +57,13 @@ export function updateIncomes(id,...thingsToUpdate) {
             indexOfSelectedObject=incomes.indexOf(object);
         }
     }
-    //destructure things to update and set default value incase they didnt change a 'particular property'
-    let [newPurpose=selectedObject.purpose,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
+    //destructure things to update and set default value to original, in case they didn't change a 'particular property'
+    let [newPurpose=selectedObject.description,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
     //begin update with provided change
     selectedObject.description=newPurpose;
     selectedObject.amount=newAmount;
     selectedObject.tag=newTag;
-    //replace old object with updated one
-   incomes.splice(indexOfSelectedObject,1,selectedObject);
-    saveExpenses(incomes);
+    //replace the old object with updated one
+    incomes.splice(indexOfSelectedObject,1,selectedObject);
+    saveIncomes(incomes);
 }
