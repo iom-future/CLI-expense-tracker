@@ -5,11 +5,29 @@ import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet'
 import Table from 'cli-table3'
-import {addExpense, loadExpenses} from "./expenseManager.js";
-import {addIncome, loadIncomes} from "./incomeManager.js";
+import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
+import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
 import {setSaving, loadSavingGoals} from "./savingManager.js";
 const prompt = promptSync();
 
+
+import inquirer from "inquirer";
+
+async function mainMenu() {
+    const answer = await inquirer.prompt([
+        {
+            type: "list",   // 'list' gives you the arrow > navigation
+            name: "action", // this is the key to store your choice
+            message: "What would you like to do?",
+            choices: [
+                "Exit App",
+                "Add Transaction",
+                "View Transactions",
+                "Generate Report"
+            ]
+        }
+    ]);
+}
 //TODO:make multi select input style
 //TODO:download davinciresolve
 //VARIABLES
@@ -127,7 +145,14 @@ while(isRunning && incomeOrExpenses!=='EXIT') {
    }
 }
 
-
+function updateTransaction() {
+    let id = prompt('whats the id of the transaction you want to update: ')
+    //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
+    let newPurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
+    let newAmount = prompt('change amount(hit enter to leave amount): ')  || undefined;
+    let newTag =  prompt('change tag(hit enter to leave tag): ')  || undefined;
+    updateExpenses(id,newPurpose,newAmount,newTag);
+}
 function viewReport(){
     console.log('under construction');
 }
@@ -145,7 +170,25 @@ console.log('lets personalize your app');
 //set up  profile
 let userName = prompt("what's your name: ");
 //TODO:get an object that has lots of country and their currency (key:value pair)
-let countryCurrency = prompt('what country are you from: ');
+const countryCurrency = {
+    "united states": { code: "USD", symbol: "$" },
+    "united kingdom": { code: "GBP", symbol: "£" },
+    "european union": { code: "EUR", symbol: "€" },
+    "japan": { code: "JPY", symbol: "¥" },
+    "china": { code: "CNY", symbol: "¥" },
+    "india": { code: "INR", symbol: "₹" },
+    "nigeria": { code: "NGN", symbol: "₦" },
+    "south africa": { code: "ZAR", symbol: "R" },
+    "canada": { code: "CAD", symbol: "$" },
+    "australia": { code: "AUD", symbol: "$" },
+    "switzerland": { code: "CHF", symbol: "CHF" },
+    "south korea": { code: "KRW", symbol: "₩" },
+    "russia": { code: "RUB", symbol: "₽" },
+    "brazil": { code: "BRL", symbol: "R$" },
+    "mexico": { code: "MXN", symbol: "$" }
+};
+
+let country = prompt('what country are you from: ').toLowerCase();
 //take some time before displaying to make it look real
 /*setTimeout(()=>{console.log('preparing app◽◽◽◽◽◽◽')},2000);
 setTimeout(()=>{console.log('setting theme◽◽◽◽◽◽◽')},5000);*/
@@ -163,7 +206,7 @@ console.log(`${color.neutralText(getTime(),userName)}
  A place to budget,save and track income`)}
  
    ${color.header('What Would you Like to do Today')}
-📃view transaction  🖋add transaction  📊View report  💰Set saving goals  👩Profile  ❌ Exit App
+📃view transaction  🖋add transaction Edit Transaction 📊View report  💰Set saving goals  👩Profile  ❌ Exit App
 ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view report......'))}
  `)
 //user input to navigate through app features
@@ -184,7 +227,7 @@ while(!(userAction===6)) {
             addTransaction()
             break;
         case 3:
-            viewReport()
+            updateTransaction();
             break;
         case 5:
             setSavingGoal();

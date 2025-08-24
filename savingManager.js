@@ -47,3 +47,22 @@ export function setSaving(purpose='none',amount=0,tag='none') {
     //write(save) the edited array back into the json file
     saveSavingGoal(savings);//rewrite the old json file with the new one(that has the edits)
 }
+
+//creat an update function
+export function updateSaving(id,...thingsToUpdate) {
+    let savings =loadSavingGoals();
+    let selectedObject ;
+    //get object you want to update vai id
+    for(let object of savings){
+        if(object.id.toString().slice(10,13)===id){
+            selectedObject=object;
+        }
+    }
+    //destructure things to update and set default value incase they didnt change a 'particular property'
+    let [newPurpose=selectedObject.purpose,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
+    selectedObject.purpose=newPurpose;
+    selectedObject.amount=newAmount;
+    selectedObject.tag=newTag;
+    savings.push(selectedObject);
+    saveSavingGoal(savings);
+}

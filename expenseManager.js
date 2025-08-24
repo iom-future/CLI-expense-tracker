@@ -1,5 +1,6 @@
 // 📦 import the file system module
 import fs from "fs";
+import {loadSavingGoals, saveSavingGoal} from "./savingManager.js";
 
 // 🏷 name of our file
 const FILE = "expenses.json";
@@ -27,13 +28,14 @@ export function saveExpenses(expenses) {
 }
 
 // ➕ add a new expense
-export function addExpense(description, amount) {
+export function addExpense(description, amount,tag) {
     let expenses = loadExpenses(); //array of transaction [{transaction 1,transaction2,ets...}]
     //create a new object of transaction
     const expense = {
         id: Date.now(),               // unique ID
         description,                  // what we spent on
         amount,
+        tag,
         category:'expense',// how much
         date: new Date().toISOString() // when
     };
@@ -42,5 +44,27 @@ export function addExpense(description, amount) {
     expenses.push(expense);
 
     // save the box again
+    saveExpenses(expenses);
+}
+
+export function updateExpenses(id,...thingsToUpdate) {
+    let expenses = loadExpenses();
+    let selectedObject;
+    let indexOfSelectedObject;
+    //get object you want to update vai id
+    for(let object of expenses){
+        if(object.id.toString().slice(10,13)===id){
+            selectedObject=object;
+            indexOfSelectedObject=expenses.indexOf(object);
+        }
+    }
+    //destructure things to update and set default value incase they didnt change a 'particular property'
+    let [newPurpose=selectedObject.purpose,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
+    //begin update with provided change
+    selectedObject.description=newPurpose;
+    selectedObject.amount=newAmount;
+    selectedObject.tag=newTag;
+    //replace old object with updated one
+    expenses.splice(indexOfSelectedObject,1,selectedObject);
     saveExpenses(expenses);
 }

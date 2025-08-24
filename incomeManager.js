@@ -1,5 +1,6 @@
 // 📦 import the file system module
 import fs from "fs";
+import {loadExpenses, saveExpenses} from "./expenseManager.js";
 
 // 🏷 name of our file
 const FILE = "incomes.json";
@@ -27,12 +28,13 @@ export function saveIncomes(incomes) {
 }
 
 // ➕ add a new expense
-export function addIncome(description, amount) {
+export function addIncome(description, amount,tag) {
     let incomes = loadIncomes();
     const income = {
         id: Date.now(),               // unique ID
         description,                  // what we spent on
         amount, // how much
+        tag,
         category:'income',
         date: new Date().toISOString() // when
     };
@@ -42,4 +44,26 @@ export function addIncome(description, amount) {
 
     // save the box again
     saveIncomes(incomes);
+}
+
+export function updateIncomes(id,...thingsToUpdate) {
+    let incomes = loadIncomes();
+    let selectedObject;
+    let indexOfSelectedObject;
+    //get object you want to update vai id
+    for(let object of incomes){
+        if(object.id.toString().slice(10,13)===id){
+            selectedObject=object;
+            indexOfSelectedObject=incomes.indexOf(object);
+        }
+    }
+    //destructure things to update and set default value incase they didnt change a 'particular property'
+    let [newPurpose=selectedObject.purpose,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
+    //begin update with provided change
+    selectedObject.description=newPurpose;
+    selectedObject.amount=newAmount;
+    selectedObject.tag=newTag;
+    //replace old object with updated one
+   incomes.splice(indexOfSelectedObject,1,selectedObject);
+    saveExpenses(incomes);
 }

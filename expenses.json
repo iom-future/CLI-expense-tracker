@@ -1,9 +1,10 @@
 [
   {
-    "id": 1755768500730,
+    "id": 1755993164752,
     "description": "movie night",
-    "amount": 20000,
+    "amount": "5000",
     "category": "expense",
-    "date": "2025-08-21T09:28:20.730Z"
+    "date": "2025-08-23T23:52:44.752Z",
+    "tag": "life"
   }
 ]
