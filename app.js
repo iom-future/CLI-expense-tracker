@@ -6,8 +6,8 @@ import clear from 'clear';
 import figlet from 'figlet'
 import fs from 'fs';
 import Table from 'cli-table3'
-import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
-import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
+import {addExpense, loadExpenses,updateExpenses,expenseIdChecker} from "./expenseManager.js";
+import {addIncome, loadIncomes,updateIncomes,idChecker} from "./incomeManager.js";
 import {setSaving, loadSavingGoals} from "./savingManager.js";
 const prompt = promptSync();
 import inquirer from "inquirer";
@@ -137,29 +137,39 @@ function updateTransaction() {
     while(isRunning && updateIncomeOrExpense!=='EXIT') {
         switch (updateIncomeOrExpense) {
             case 'I':
+                //first if statement checks if there is any data at all
                 if(loadIncomes().length !== 0) {
-                    let incomeID = prompt('whats the id of the transaction you want to update: ')
-                    //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
-                    let newIncomePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
-                    let newIncomeAmount = prompt('change amount(hit enter to leave amount): ') || undefined;
-                    let newIncomeTag = prompt('change tag(hit enter to leave tag): ') || undefined;
-                    updateIncomes(incomeID, newIncomePurpose, newIncomeAmount, newIncomeTag);
-                    console.log('transaction updated successfully');
-                    isRunning = false;
-                    break;
+                    let incomeID = prompt('whats the id of the transaction you want to update: ');
+                    //this second if checks if the selected transaction[chosen by ID ] exists .
+                    if(idChecker(incomeID)===true){
+                        //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
+                        let newIncomePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
+                        let newIncomeAmount = prompt('change amount(hit enter to leave amount): ') || undefined;
+                        let newIncomeTag = prompt('change tag(hit enter to leave tag): ') || undefined;
+                        updateIncomes(incomeID, newIncomePurpose, newIncomeAmount, newIncomeTag);
+                        console.log('transaction updated successfully');
+                        isRunning = false;
+                        break;
+                    }else{console.log('transaction do not exist ');
+                        isRunning = false;
+                        break}
                 }else{console.log('no transaction to edit');
                     isRunning = false;
                 break;}
+
             case 'E':
                 if(loadExpenses().length !== 0) {
-                let expenseID = prompt('whats the id of the transaction you want to update: ')
-                //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
-                let newExpensePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
-                let newExpenseAmount = prompt('change amount(hit enter to leave amount): ')  || undefined;
-                let newExpenseTag =  prompt('change tag(hit enter to leave tag): ')  || undefined;
-                updateExpenses(expenseID,newExpensePurpose,newExpenseAmount,newExpenseTag);
-                isRunning =false;
-                break;
+                let expenseID = prompt('whats the id of the transaction you want to update: ');
+                        if(expenseIdChecker(expenseID)===true){
+                    //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
+                    let newExpensePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
+                    let newExpenseAmount = prompt('change amount(hit enter to leave amount): ')  || undefined;
+                    let newExpenseTag =  prompt('change tag(hit enter to leave tag): ')  || undefined;
+                    updateExpenses(expenseID,newExpensePurpose,newExpenseAmount,newExpenseTag);
+                    isRunning =false;
+                    break;}else{console.log('transaction do not exist ');
+                            isRunning = false;
+                            break;}
                 }else{console.log('no transaction to edit') ;
                     isRunning = false;
                     break}

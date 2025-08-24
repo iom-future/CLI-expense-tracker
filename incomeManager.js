@@ -46,13 +46,24 @@ export function addIncome(description, amount,tag) {
     saveIncomes(incomes);
 }
 
+export function idChecker(id){
+    let idExist = false;
+    let incomes = loadIncomes();
+    for(let object of incomes){
+        if(object.id.toString().slice(10,13)===id){
+            idExist = true;
+        }
+    }
+    return idExist;
+
+}
 export function updateIncomes(id,...thingsToUpdate) {
     let incomes = loadIncomes();
     let selectedObject;
     let indexOfSelectedObject;
     //get object you want to update vai id
     for(let object of incomes){
-        if(object.id.toString().slice(10,13)===id){
+        if(object.id.toString().slice(10,13)===id && thingsToUpdate.length<=0){
             selectedObject=object;
             indexOfSelectedObject=incomes.indexOf(object);
         }

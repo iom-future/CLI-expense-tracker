@@ -1,6 +1,7 @@
 // 📦 import the file system module
 import fs from "fs";
 import {loadSavingGoals, saveSavingGoal} from "./savingManager.js";
+import {loadIncomes} from "./incomeManager.js";
 
 // 🏷 name of our file
 const FILE = "expenses.json";
@@ -46,14 +47,24 @@ export function addExpense(description, amount,tag) {
     // save the box again
     saveExpenses(expenses);
 }
+export function expenseIdChecker(id){
+    let idExist = false;
+    let expenses = loadExpenses();
+    for(let object of expenses){
+        if(object.id.toString().slice(10,13)===id){
+            idExist = true;
+        }
+    }
+    return idExist;
 
+}
 export function updateExpenses(id,...thingsToUpdate) {
     let expenses = loadExpenses();
     let selectedObject;
     let indexOfSelectedObject;
     //get object you want to update vai id
     for(let object of expenses){
-        if(object.id.toString().slice(10,13)===id){
+        if(object.id.toString().slice(10,13)===id && thingsToUpdate.length>0){
             selectedObject=object;
             indexOfSelectedObject=expenses.indexOf(object);
         }
