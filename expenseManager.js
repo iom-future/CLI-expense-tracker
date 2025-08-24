@@ -59,7 +59,7 @@ export function updateExpenses(id,...thingsToUpdate) {
         }
     }
     //destructure things to update and set default value incase they didnt change a 'particular property'
-    let [newPurpose=selectedObject.purpose,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
+    let [newPurpose=selectedObject.description,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
     //begin update with provided change
     selectedObject.description=newPurpose;
     selectedObject.amount=newAmount;
