@@ -63,7 +63,7 @@ export function updateIncomes(id,...thingsToUpdate) {
     let indexOfSelectedObject;
     //get object you want to update vai id
     for(let object of incomes){
-        if(object.id.toString().slice(10,13)===id && thingsToUpdate.length<=0){
+        if(object.id.toString().slice(10,13)===id){
             selectedObject=object;
             indexOfSelectedObject=incomes.indexOf(object);
         }
