@@ -108,17 +108,17 @@ let isRunning =true;
 while(isRunning && incomeOrExpenses!=='EXIT') {
         switch (incomeOrExpenses) {
             case 'I':
-                let descriptionForIncome = prompt('How did you earn: ');
-                let amountForIncome = Number(prompt("How much did you earn: "));
-                let tagForIncome = prompt('enter tag: ');
+                let descriptionForIncome = prompt('How did you earn: ') ||undefined;
+                let amountForIncome = Number(prompt("How much did you earn: ")) ||undefined;
+                let tagForIncome = prompt('enter tag: ') ||undefined;
                 // add an income
                 addIncome(descriptionForIncome, amountForIncome,tagForIncome);
                 isRunning =false;
                 break;
             case 'E':
-                let descriptionForExpense = prompt('What did you spend on: ');
-                let amountForExpense = Number(prompt("How much did you spend: "));
-                let tagForExpense= prompt('enter tag: ');
+                let descriptionForExpense = prompt('What did you spend on: ') ||undefined;
+                let amountForExpense = Number(prompt("How much did you spend: ")) ||undefined;
+                let tagForExpense= prompt('enter tag: ') ||undefined;
                 // add an expense
                 addExpense(descriptionForExpense, amountForExpense, tagForExpense);
                 isRunning =false;
@@ -187,9 +187,9 @@ function viewReport(){
     console.log('under construction');
 }
 function setSavingGoal(){
-      let savingPurpose = prompt('what are you saving for: ');
-      let savingAmount = Number(prompt('how much do you plan on saving'));
-      let tag = prompt('enter tag: ');
+      let savingPurpose = prompt('what are you saving for: ') ||undefined;
+      let savingAmount = Number(prompt('how much do you plan on saving: ')) ||undefined;
+      let tag = prompt('enter tag: ') ||undefined;
       setSaving(savingPurpose,savingAmount,tag);
       console.log('saving goal set successfully')
 }
@@ -271,56 +271,4 @@ while(!(userAction===6)) {
     }
     userAction = Number(prompt("what do you want to do(enter in numbers): "));
 }
-/*
-let userInput;
-async function input() {
-        const answer = await inquirer.prompt([
-            {
-                type: "list",   // 'list' gives you the arrow > navigation
-                name: "action", // this is the key to store your choice
-                message: "What would you like to do?",
-                choices: [
-                    "Exit App",
-                    "Add Transaction",
-                    "View Transactions",
-                    "Generate Report"
-                ]
-            }
-        ]);
-userInput=answer.action;
-        console.log("You selected:", answer.action);
-        switch (answer.action) {
-            case "Exit App":
-                console.log("Goodbye 👋");
-                process.exit(0);
-            case "Add Transaction":
-                // call your add function
-                console.log("🚀 Add a new transaction here...");
-                addTransaction();
-                break;
-            case "View Transactions":
-                // call your view function
-                console.log("📜 Viewing all transactions...");
-                console.log(viewTransaction());
-                displayTotalTransactionData().forEach(obj => {
-                    if (obj.category === 'income') {
-                        console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)}`);
 
-                    } else {
-                        console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}`);
-                    }
-                });
-                break;
-            case "Generate Report":
-                console.log("📊 Report generated...");
-                break;
-            default:
-
-
-        }
-
-    }
-input();
-
-
-*/

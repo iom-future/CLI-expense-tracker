@@ -1,2 +1,10 @@
 [
+  {
+    "id": 1756183507268,
+    "description": "mobile data",
+    "amount": 3500,
+    "tag": "data",
+    "category": "expense",
+    "date": "2025-08-26T04:45:07.268Z"
+  }
 ]
