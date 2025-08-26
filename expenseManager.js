@@ -29,7 +29,7 @@ export function saveExpenses(expenses) {
 }
 
 // ➕ add a new expense
-export function addExpense(description, amount,tag) {
+export function addExpense(description = 'none', amount =0,tag='none') {
     let expenses = loadExpenses(); //array of transaction [{transaction 1,transaction2,ets...}]
     //create a new object of transaction
     const expense = {
@@ -38,7 +38,7 @@ export function addExpense(description, amount,tag) {
         amount,
         tag,
         category:'expense',// how much
-        date: new Date().toISOString() // when
+        date: new Date().toDateString()// when
     };
 
     // put this new object into the array of object

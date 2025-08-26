@@ -1,6 +1,5 @@
 //import the file reading module
 import fs from 'fs';
-import {loadExpenses} from "./expenseManager.js";
 
 //name of file to be read and written into
 const FILE = 'saving.json'; //why in qoutes
@@ -52,10 +51,12 @@ export function setSaving(purpose='none',amount=0,tag='none') {
 export function updateSaving(id,...thingsToUpdate) {
     let savings =loadSavingGoals();
     let selectedObject ;
+    let indexOfSelectedObject;
     //get object you want to update vai id
     for(let object of savings){
         if(object.id.toString().slice(10,13)===id){
             selectedObject=object;
+            indexOfSelectedObject=savings.indexOf(object);
         }
     }
     //destructure things to update and set default value incase they didnt change a 'particular property'
@@ -63,6 +64,6 @@ export function updateSaving(id,...thingsToUpdate) {
     selectedObject.purpose=newPurpose;
     selectedObject.amount=newAmount;
     selectedObject.tag=newTag;
-    savings.push(selectedObject);
-    saveSavingGoal(savings);
+    savings.splice(indexOfSelectedObject,1,selectedObject);
+    saveIncomes(savings);
 }

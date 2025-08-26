@@ -1,10 +1,10 @@
 [
   {
-    "id": 1756090273494,
-    "description": "bought a birthday gift",
-    "amount": "1000",
-    "tag": "gift",
+    "id": 1756183507268,
+    "description": "mobile data",
+    "amount": 3500,
+    "tag": "data",
     "category": "expense",
-    "date": "2025-08-25T02:51:13.494Z"
+    "date": "2025-08-26T04:45:07.268Z"
   }
 ]

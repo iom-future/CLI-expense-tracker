@@ -28,7 +28,7 @@ export function saveIncomes(incomes) {
 }
 
 // ➕ add a new expense
-export function addIncome(description, amount,tag) {
+export function addIncome(description='none', amount=0,tag='none') {
     let incomes = loadIncomes();
     const income = {
         id: Date.now(),               // unique ID
