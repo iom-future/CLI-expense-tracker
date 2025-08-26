@@ -267,7 +267,7 @@ while(!(userAction===6)) {
         default:
             userAction = Number(prompt("INPUT NOT SUPPORTED\ " +
                 "What do you want to do(enter in numbers): "));
-
+            break;
     }
     userAction = Number(prompt("what do you want to do(enter in numbers): "));
 }
