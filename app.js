@@ -236,12 +236,15 @@ console.log(`${color.neutralText(getTime(),userName)}
  A place to budget,save and track income`)}
  
    ${color.header('What Would you Like to do Today')}
-📃view transaction  🖋add transaction Edit Transaction 📊View report  💰Set saving goals  👩Profile  ❌ Exit App
+📃view transaction  🖋add transaction ✏Edit Transaction 📊View report  💰Set saving goals  👩Profile  ❌ Exit App
 ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view report......'))}
  `)
 //user input to navigate through app features
 let userAction = Number(prompt("what do you want to do(enter in numbers): "));
 clear();
+
+//Main Menu
+
 while(!(userAction===6)) {
     switch (userAction) {
         case 1:
@@ -257,6 +260,9 @@ while(!(userAction===6)) {
             break;
         case 3:
             updateTransaction();
+            break;
+        case 4:
+            viewReport();
             break;
         case 5:
             setSavingGoal();
