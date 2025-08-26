@@ -247,9 +247,9 @@ while(!(userAction===6)) {
         case 1:
             console.log(viewTransaction());
            displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
-                 console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)} with id ${obj.id}`);
+                 console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)} with id ${obj.id.toString().slice(10,13)}`);
             }else{
-                console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}  with id ${obj.id}`);
+                console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}  with id ${obj.id.toString().slice(10,13)}`);
             }});
             break;
         case 2:
@@ -267,6 +267,7 @@ while(!(userAction===6)) {
         default:
             userAction = Number(prompt("INPUT NOT SUPPORTED\ " +
                 "What do you want to do(enter in numbers): "));
+            break;
 
     }
     userAction = Number(prompt("what do you want to do(enter in numbers): "));
