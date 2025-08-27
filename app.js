@@ -57,10 +57,10 @@ function displayTotalTransactionData() {
     return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
 //console.log(totalTransactionData);
 }
-let allTransaction  = [...loadExpenses(), ...loadIncomes(),...loadSavingGoals()];
+
 function idChecker(id){
     let idExist = false;
-    for(let object of allTransaction){
+    for(let object of displayTotalTransactionData()){
         if(object.id.toString().slice(10,13)===id){
             idExist = true;
         }
@@ -72,7 +72,7 @@ function getTransactionDetails(ID) {
     //object === transaction
     let selectedObject,indexOfSelectedObject;
 //get object you want to update vai id
-    for(let object of allTransaction){
+    for(let object of displayTotalTransactionData()){
         if(object.id.toString().slice(10,13)===ID){
             selectedObject=object;
             if(selectedObject.category === 'income')

@@ -6,5 +6,13 @@
     "tag": "property",
     "category": "expense",
     "date": "2025-08-26T04:45:07.268Z"
+  },
+  {
+    "id": 1756283091137,
+    "description": "christmas present",
+    "amount": 3000,
+    "tag": "gift",
+    "category": "expense",
+    "date": "Tue Aug 26 2025"
   }
 ]

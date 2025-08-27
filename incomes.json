@@ -1,10 +1,34 @@
 [
   {
     "id": 1756011755728,
-    "description": "raffle from ilovemymedia",
-    "amount": "200000",
+    "description": "whyy",
+    "amount": "552",
     "tag": "survey",
     "category": "income",
     "date": "2025-08-24T05:02:35.728Z"
+  },
+  {
+    "id": 1756283030422,
+    "description": "slop",
+    "amount": 33000,
+    "tag": "t",
+    "category": "income",
+    "date": "2025-08-27T08:23:50.422Z"
+  },
+  {
+    "id": 1756324806573,
+    "description": "gift card",
+    "amount": 35222,
+    "tag": "work",
+    "category": "income",
+    "date": "2025-08-27T20:00:06.573Z"
+  },
+  {
+    "id": 1756337902730,
+    "description": "clean up",
+    "amount": 90000,
+    "tag": "work",
+    "category": "income",
+    "date": "2025-08-27T23:38:22.730Z"
   }
 ]
