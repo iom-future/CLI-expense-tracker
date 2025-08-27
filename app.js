@@ -6,9 +6,9 @@ import clear from 'clear';
 import figlet from 'figlet'
 import fs from 'fs';
 import Table from 'cli-table3'
-import {addExpense, loadExpenses,updateExpenses,expenseIdChecker} from "./expenseManager.js";
-import {addIncome, loadIncomes,updateIncomes,idChecker} from "./incomeManager.js";
-import {setSaving, loadSavingGoals} from "./savingManager.js";
+import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
+import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
+import {setSaving, loadSavingGoals,updateSaving} from "./savingManager.js";
 const prompt = promptSync();
 import inquirer from "inquirer";
 
@@ -56,6 +56,34 @@ function displayTotalTransactionData() {
     });*/
     return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
 //console.log(totalTransactionData);
+}
+let allTransaction  = [...loadExpenses(), ...loadIncomes(),...loadSavingGoals()];
+function idChecker(id){
+    let idExist = false;
+    for(let object of allTransaction){
+        if(object.id.toString().slice(10,13)===id){
+            idExist = true;
+        }
+    }
+    return idExist;
+
+}
+function getTransactionDetails(ID) {
+    //object === transaction
+    let selectedObject,indexOfSelectedObject;
+//get object you want to update vai id
+    for(let object of allTransaction){
+        if(object.id.toString().slice(10,13)===ID){
+            selectedObject=object;
+            if(selectedObject.category === 'income')
+              indexOfSelectedObject=loadIncomes().indexOf(selectedObject);
+            else if(selectedObject.category==='expense')
+                indexOfSelectedObject=loadExpenses().indexOf(selectedObject);
+            else
+                indexOfSelectedObject=loadSavingGoals().indexOf(selectedObject);
+        }
+    }
+    return[selectedObject,indexOfSelectedObject];
 }
 
 //A function that gets the time to greet user accordingly
@@ -132,21 +160,25 @@ while(isRunning && incomeOrExpenses!=='EXIT') {
 }
 
 function updateTransaction() {
-    let updateIncomeOrExpense = prompt('what do you want to edit income or expense(I/E/exit): ').toUpperCase();
+    let ID = prompt('whats the id of the transaction you want to update(or exit): ').toUpperCase();
+    let [selectedObject,indexOfSelectedObject] = getTransactionDetails(ID)
     let isRunning =true;
-    while(isRunning && updateIncomeOrExpense!=='EXIT') {
-        switch (updateIncomeOrExpense) {
-            case 'I':
+    while(isRunning && ID!=='EXIT') {
                 //first if statement checks if there is any data at all
-                if(loadIncomes().length !== 0) {
-                    let incomeID = prompt('whats the id of the transaction you want to update: ');
+                if(loadIncomes().length !== 0||loadExpenses().length !== 0||loadSavingGoals().length !== 0) {
                     //this second if checks if the selected transaction[chosen by ID ] exists .
-                    if(idChecker(incomeID)===true){
+                    if(idChecker(ID)){
                         //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
-                        let newIncomePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
-                        let newIncomeAmount = prompt('change amount(hit enter to leave amount): ') || undefined;
-                        let newIncomeTag = prompt('change tag(hit enter to leave tag): ') || undefined;
-                        updateIncomes(incomeID, newIncomePurpose, newIncomeAmount, newIncomeTag);
+                        let newPurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
+                        let newAmount = prompt('change amount(hit enter to leave amount): ') || undefined;
+                        let newTag = prompt('change tag(hit enter to leave tag): ') || undefined;
+                        //this final conditional statement allow you edit specific transaction based on the certain category it belongs
+                            if(selectedObject.category === 'income')
+                                updateIncomes(selectedObject,indexOfSelectedObject,newPurpose, newAmount, newTag);
+                            else if(selectedObject.category==='expense')
+                                updateExpenses(selectedObject,indexOfSelectedObject,newPurpose, newAmount, newTag);
+                            else
+                                updateSaving(selectedObject,indexOfSelectedObject,newPurpose, newAmount, newTag);
                         console.log('transaction updated successfully');
                         isRunning = false;
                         break;
@@ -155,29 +187,9 @@ function updateTransaction() {
                         break}
                 }else{console.log('no transaction to edit');
                     isRunning = false;
-                break;}
+               }
 
-            case 'E':
-                if(loadExpenses().length !== 0) {
-                let expenseID = prompt('whats the id of the transaction you want to update: ');
-                        if(expenseIdChecker(expenseID)===true){
-                    //if the user enters no value its becomes a falsy value therefore the || returns undefined else it returns the first truthy value
-                    let newExpensePurpose = prompt('change description(hit enter to leave purpose): ') || undefined;
-                    let newExpenseAmount = prompt('change amount(hit enter to leave amount): ')  || undefined;
-                    let newExpenseTag =  prompt('change tag(hit enter to leave tag): ')  || undefined;
-                    updateExpenses(expenseID,newExpensePurpose,newExpenseAmount,newExpenseTag);
-                    isRunning =false;
-                    break;}else{console.log('transaction do not exist ');
-                            isRunning = false;
-                            break;}
-                }else{console.log('no transaction to edit') ;
-                    isRunning = false;
-                    break}
-            default:
-                updateIncomeOrExpense = prompt("INPUT NOT SUPPORTED\ " +
-                    "what do you want to edit income or expense(I/E/exit): ").toUpperCase();
-                break;
-        }
+
     }
 
 }

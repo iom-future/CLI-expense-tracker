@@ -47,7 +47,7 @@ export function addExpense(description = 'none', amount =0,tag='none') {
     // save the box again
     saveExpenses(expenses);
 }
-export function expenseIdChecker(id){
+/*export function expenseIdChecker(id){
     let idExist = false;
     let expenses = loadExpenses();
     for(let object of expenses){
@@ -57,18 +57,9 @@ export function expenseIdChecker(id){
     }
     return idExist;
 
-}
-export function updateExpenses(id,...thingsToUpdate) {
+}*/
+export function updateExpenses(selectedObject,indexOfTransaction,...thingsToUpdate) {
     let expenses = loadExpenses();
-    let selectedObject;
-    let indexOfSelectedObject;
-    //get object you want to update vai id
-    for(let object of expenses){
-        if(object.id.toString().slice(10,13)===id && thingsToUpdate.length>0){
-            selectedObject=object;
-            indexOfSelectedObject=expenses.indexOf(object);
-        }
-    }
     //destructure things to update and set default value incase they didnt change a 'particular property'
     let [newPurpose=selectedObject.description,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
     //begin update with provided change
@@ -76,6 +67,6 @@ export function updateExpenses(id,...thingsToUpdate) {
     selectedObject.amount=newAmount;
     selectedObject.tag=newTag;
     //replace old object with updated one
-    expenses.splice(indexOfSelectedObject,1,selectedObject);
+    expenses.splice(indexOfTransaction,1,selectedObject);
     saveExpenses(expenses);
 }

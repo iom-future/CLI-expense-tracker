@@ -46,7 +46,7 @@ export function addIncome(description='none', amount=0,tag='none') {
     saveIncomes(incomes);
 }
 
-export function idChecker(id){
+/*export function idChecker(id){
     let idExist = false;
     let incomes = loadIncomes();
     for(let object of incomes){
@@ -56,18 +56,9 @@ export function idChecker(id){
     }
     return idExist;
 
-}
-export function updateIncomes(id,...thingsToUpdate) {
+}*/
+export function updateIncomes(selectedObject,indexOfTransaction,...thingsToUpdate) {
     let incomes = loadIncomes();
-    let selectedObject;
-    let indexOfSelectedObject;
-    //get object you want to update vai id
-    for(let object of incomes){
-        if(object.id.toString().slice(10,13)===id){
-            selectedObject=object;
-            indexOfSelectedObject=incomes.indexOf(object);
-        }
-    }
     //destructure things to update and set default value to original, in case they didn't change a 'particular property'
     let [newPurpose=selectedObject.description,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
     //begin update with provided change
@@ -75,6 +66,6 @@ export function updateIncomes(id,...thingsToUpdate) {
     selectedObject.amount=newAmount;
     selectedObject.tag=newTag;
     //replace the old object with updated one
-    incomes.splice(indexOfSelectedObject,1,selectedObject);
+    incomes.splice(indexOfTransaction,1,selectedObject);
     saveIncomes(incomes);
 }

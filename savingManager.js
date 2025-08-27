@@ -48,22 +48,13 @@ export function setSaving(purpose='none',amount=0,tag='none') {
 }
 
 //creat an update function
-export function updateSaving(id,...thingsToUpdate) {
+export function updateSaving(selectedObject,indexOfTransaction,...thingsToUpdate) {
     let savings =loadSavingGoals();
-    let selectedObject ;
-    let indexOfSelectedObject;
-    //get object you want to update vai id
-    for(let object of savings){
-        if(object.id.toString().slice(10,13)===id){
-            selectedObject=object;
-            indexOfSelectedObject=savings.indexOf(object);
-        }
-    }
     //destructure things to update and set default value incase they didnt change a 'particular property'
     let [newPurpose=selectedObject.purpose,newAmount=selectedObject.amount,newTag=selectedObject.tag] = thingsToUpdate;
     selectedObject.purpose=newPurpose;
     selectedObject.amount=newAmount;
     selectedObject.tag=newTag;
-    savings.splice(indexOfSelectedObject,1,selectedObject);
-    saveIncomes(savings);
+    savings.splice(indexOfTransaction,1,selectedObject);
+    saveSavingGoal(savings);
 }
