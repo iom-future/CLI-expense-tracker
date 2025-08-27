@@ -11,8 +11,16 @@
     "id": 1756281016869,
     "description": "sold gift card",
     "amount": 20000,
-    "tag": "survey",
+    "tag": "work",
     "category": "income",
     "date": "2025-08-27T07:50:16.869Z"
+  },
+  {
+    "id": 1756281544695,
+    "description": "gift",
+    "amount": 2000,
+    "tag": "gift",
+    "category": "income",
+    "date": "2025-08-27T07:59:04.695Z"
   }
 ]
