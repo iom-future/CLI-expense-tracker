@@ -14,5 +14,13 @@
     "tag": "gift",
     "category": "expense",
     "date": "Tue Aug 26 2025"
+  },
+  {
+    "id": 1756360843806,
+    "description": "nothing",
+    "amount": 35,
+    "tag": "none",
+    "category": "expense",
+    "date": "Wed Aug 27 2025"
   }
 ]

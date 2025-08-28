@@ -1,24 +1,29 @@
-import fs from 'fs';
+import fs from "fs";
+
 const PROFILE_FILE = 'profile.json';
+
 export function readProfile() {
     if(!fs.existsSync(PROFILE_FILE)){
-      return  [];
+      return false;
     }
-
-    return JSON.parse(PROFILE_FILE);
+    //TODO:why must we read the file before using it even after storing it in a variable
+    const data = fs.readFileSync(PROFILE_FILE);
+    return JSON.parse(data);
 }
 
 export function saveProfile(profileInfo) {
-    fs.writeFIleSync(PROFILE_FILE,JSON.stringify(profileInfo,null,2));
+    fs.writeFileSync(PROFILE_FILE,JSON.stringify(profileInfo,null,2));
 }
 
-export function addProfile(name, country) {
+export function addProfile(name = 'user', country = 'none') {
     let profileInfo = readProfile();
     let profileData={
         name,
-        country
+        country,
+        dateUserJoined :  new Date().toDateString()
     }
 
     profileInfo.push(profileData);
     saveProfile(profileInfo);
 }
+//console.log(fs);

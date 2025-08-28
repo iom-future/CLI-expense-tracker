@@ -213,9 +213,10 @@ console.log('lets personalize your app');
 //if no profile(entering for the first time) set up  profile
 let userName
 let country
-if(readProfile()===[]){
-   userName = prompt("what's your name: ");
-   country = prompt('what country are you from: ').toLowerCase();
+if(!readProfile()){
+   userName = prompt("what's your name: ") || undefined;
+   country = prompt('what country are you from: ').toLowerCase() || undefined;
+   addProfile(userName,country);
 }else{
     userName = readProfile()[0].name;
     country =readProfile()[0].country;
@@ -236,7 +237,8 @@ const countryCurrency = {
     "south korea": { code: "KRW", symbol: "₩" },
     "russia": { code: "RUB", symbol: "₽" },
     "brazil": { code: "BRL", symbol: "R$" },
-    "mexico": { code: "MXN", symbol: "$" }
+    "mexico": { code: "MXN", symbol: "$" },
+    "none": { code: "none", symbol: "" }
 };
 
 //welcome message below
