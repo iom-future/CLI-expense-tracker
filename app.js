@@ -9,6 +9,7 @@ import Table from 'cli-table3'
 import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
 import {setSaving, loadSavingGoals,updateSaving} from "./savingManager.js";
+import {addProfile, readProfile} from "./profile-manager.js";
 const prompt = promptSync();
 import inquirer from "inquirer";
 
@@ -209,9 +210,17 @@ function profile(){
 
 }
 console.log('lets personalize your app');
-//set up  profile
-let userName = prompt("what's your name: ");
-//TODO:get an object that has lots of country and their currency (key:value pair)
+//if no profile(entering for the first time) set up  profile
+let userName
+let country
+if(readProfile()===[]){
+   userName = prompt("what's your name: ");
+   country = prompt('what country are you from: ').toLowerCase();
+}else{
+    userName = readProfile()[0].name;
+    country =readProfile()[0].country;
+}
+
 const countryCurrency = {
     "united states": { code: "USD", symbol: "$" },
     "united kingdom": { code: "GBP", symbol: "£" },
@@ -229,11 +238,6 @@ const countryCurrency = {
     "brazil": { code: "BRL", symbol: "R$" },
     "mexico": { code: "MXN", symbol: "$" }
 };
-
-let country = prompt('what country are you from: ').toLowerCase();
-//take some time before displaying to make it look real
-/*setTimeout(()=>{console.log('preparing app◽◽◽◽◽◽◽')},2000);
-setTimeout(()=>{console.log('setting theme◽◽◽◽◽◽◽')},5000);*/
 
 //welcome message below
 console.log(`${color.neutralText(getTime(),userName)}
@@ -262,9 +266,9 @@ while(!(userAction===6)) {
         case 1:
             console.log(viewTransaction());
            displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
-                 console.log(`${color.neutralText(obj.description)}: ${color.success(obj.amount)} with id ${obj.id.toString().slice(10,13)}`);
+                 console.log(`${color.neutralText(obj.description)}:${countryCurrency[country].symbol}${color.success(obj.amount)} with id ${obj.id.toString().slice(10,13)}`);
             }else{
-                console.log(`${color.neutralText(obj.description)}: ${color.error(obj.amount)}  with id ${obj.id.toString().slice(10,13)}`);
+                console.log(`${color.neutralText(obj.description)}: ${countryCurrency[country].symbol}${color.error(obj.amount)}  with id ${obj.id.toString().slice(10,13)}`);
             }});
             break;
         case 2:
