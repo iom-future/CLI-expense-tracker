@@ -9,7 +9,6 @@ import Table from 'cli-table3'
 import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
 import {setSaving, loadSavingGoals,updateSaving} from "./savingManager.js";
-import {idChecker,allTransaction} from "./ISE-manager.js";
 const prompt = promptSync();
 import inquirer from "inquirer";
 
@@ -58,22 +57,22 @@ function displayTotalTransactionData() {
     return [...loadExpenses(), ...loadIncomes()].sort((a, b) => a.id - b.id)
 //console.log(totalTransactionData);
 }
-/*let allTransaction  = [...loadExpenses(), ...loadIncomes(),...loadSavingGoals()];
+
 function idChecker(id){
     let idExist = false;
-    for(let object of allTransaction){
+    for(let object of displayTotalTransactionData()){
         if(object.id.toString().slice(10,13)===id){
             idExist = true;
         }
     }
     return idExist;
 
-}*/
+}
 function getTransactionDetails(ID) {
     //object === transaction
     let selectedObject,indexOfSelectedObject;
 //get object you want to update vai id
-    for(let object of allTransaction){
+    for(let object of displayTotalTransactionData()){
         if(object.id.toString().slice(10,13)===ID){
             selectedObject=object;
             if(selectedObject.category === 'income')
