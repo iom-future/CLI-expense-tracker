@@ -9,7 +9,7 @@ import Table from 'cli-table3'
 import {addExpense, loadExpenses,updateExpenses} from "./expenseManager.js";
 import {addIncome, loadIncomes,updateIncomes} from "./incomeManager.js";
 import {setSaving, loadSavingGoals,updateSaving} from "./savingManager.js";
-import {addProfile, readProfile} from "./profile-manager.js";
+import {addProfile, readProfile,updateProfile} from "./profile-manager.js";
 const prompt = promptSync();
 import inquirer from "inquirer";
 
@@ -17,6 +17,9 @@ import inquirer from "inquirer";
 //TODO:make multi select input style
 //TODO:download davinciresolve
 //VARIABLES
+let userName
+let country
+let password;
 let income = 0.00;
 let expense = 0.00;
 let totalBalance = income -expense;
@@ -206,20 +209,40 @@ function setSavingGoal(){
       setSaving(savingPurpose,savingAmount,tag);
       console.log('saving goal set successfully')
 }
-function profile(){
 
-}
-console.log('lets personalize your app');
+
 //if no profile(entering for the first time) set up  profile
-let userName
-let country
-if(!readProfile()){
+if(readProfile()===null){
+    console.log('New to Future Expense Tracker.....lets personalize your app');
    userName = prompt("what's your name: ") || undefined;
    country = prompt('what country are you from: ').toLowerCase() || undefined;
-   addProfile(userName,country);
+   password = prompt('enter a strong password: ');
+   addProfile(userName,country,password);
 }else{
-    userName = readProfile()[0].name;
-    country =readProfile()[0].country;
+    userName = readProfile().name;
+    country =readProfile().country;
+    let passwordRequirementBeforeLogin = prompt(`welcome back ${userName}, please enter password: `)
+    let passwordCheckerLoop = true;
+    while(passwordCheckerLoop){
+        if(passwordRequirementBeforeLogin===readProfile().password)
+            passwordCheckerLoop =false;
+        else
+            passwordRequirementBeforeLogin=prompt('WRONG PASSWORD try again: ');
+    }
+}
+function profile(){
+//view profile details
+    let profileDetails = `    ${color.header('YOUR PROFILE')}  
+name: ${readProfile().name} 
+country: ${readProfile().country}`
+    //accessing the username from the json file allows you bypass the need to reload the program before variables can update
+    console.log(profileDetails);
+    let profileEdit =   prompt('do you want to edit profile(y/n/exit): ').toLowerCase();
+    if (profileEdit==='y'){
+        let newUserName = prompt('enter new user name(enter to leave the same): ') ||  undefined;
+        let newCountry = prompt('enter new country(enter to leave the same): ') ||  undefined;
+        updateProfile(newUserName,newCountry);
+    }
 }
 
 const countryCurrency = {
@@ -241,6 +264,7 @@ const countryCurrency = {
     "none": { code: "none", symbol: "" }
 };
 
+
 //welcome message below
 console.log(`${color.neutralText(getTime(),userName)}
         ${figlet.textSync("Future Expense Tracker", {
@@ -254,7 +278,7 @@ console.log(`${color.neutralText(getTime(),userName)}
  A place to budget,save and track income`)}
  
    ${color.header('What Would you Like to do Today')}
-📃view transaction  🖋add transaction ✏Edit Transaction 📊View report  💰Set saving goals  👩Profile  ❌ Exit App
+📃view transaction  🖋add transaction ✏ Edit Transaction 📊View report  💰Set saving goals  👩Profile  ❌ Exit App
 ${terminalBox(color.info('tip: 1-view transaction,2-add transaction,3-view report......'))}
  `)
 //user input to navigate through app features
@@ -263,7 +287,7 @@ clear();
 
 //Main Menu
 
-while(!(userAction===6)) {
+while(!(userAction===7)) {
     switch (userAction) {
         case 1:
             console.log(viewTransaction());

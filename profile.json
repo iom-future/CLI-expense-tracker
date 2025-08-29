@@ -1,7 +1,6 @@
-[
-  {
-    "name": "isaac",
-    "country": "nigeria",
-    "dateUserJoined": "Wed Aug 27 2025"
-  }
-]
+{
+  "name": "isaac",
+  "country": "nigeria",
+  "password": "ddd",
+  "dateUserJoined": "Thu Aug 28 2025"
+}
