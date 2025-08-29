@@ -220,7 +220,7 @@ if(readProfile()===null){
    addProfile(userName,country,password);
 }else{
     userName = readProfile().name;
-    country =readProfile().country;
+   // country =readProfile().country;
     let passwordRequirementBeforeLogin = prompt(`welcome back ${userName}, please enter password: `)
     let passwordCheckerLoop = true;
     while(passwordCheckerLoop){
@@ -292,9 +292,9 @@ while(!(userAction===7)) {
         case 1:
             console.log(viewTransaction());
            displayTotalTransactionData().forEach(obj=> {if (obj.category==='income'){
-                 console.log(`${color.neutralText(obj.description)}:${countryCurrency[country].symbol}${color.success(obj.amount)} with id ${obj.id.toString().slice(10,13)}`);
+                 console.log(`${color.neutralText(obj.description)}:${countryCurrency[readProfile().country].symbol}${color.success(obj.amount)} with id ${obj.id.toString().slice(10,13)}`);
             }else{
-                console.log(`${color.neutralText(obj.description)}: ${countryCurrency[country].symbol}${color.error(obj.amount)}  with id ${obj.id.toString().slice(10,13)}`);
+                console.log(`${color.neutralText(obj.description)}: ${countryCurrency[readProfile().country].symbol}${color.error(obj.amount)}  with id ${obj.id.toString().slice(10,13)}`);
             }});
             break;
         case 2:
