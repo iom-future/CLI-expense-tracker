@@ -217,7 +217,7 @@ if(readProfile()===null){
    userName = prompt("what's your name: ") || undefined;
    country = prompt('what country are you from: ').toLowerCase() || undefined;
    password = prompt('enter a strong password: ');
-   addProfile(userName,country,password);
+   addProfile(userName,country,password);//?
 }else{
     userName = readProfile().name;
    // country =readProfile().country;
