@@ -15,7 +15,6 @@ import inquirer from "inquirer";
 
 
 //TODO:make multi select input style
-//TODO:download davinciresolve
 //VARIABLES
 let userName
 let country
