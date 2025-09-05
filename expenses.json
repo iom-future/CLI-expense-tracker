@@ -1,26 +1,3 @@
 [
-  {
-    "id": 1756183507268,
-    "description": "bought a mansion",
-    "amount": "10000000",
-    "tag": "property",
-    "category": "expense",
-    "date": "2025-08-26T04:45:07.268Z"
-  },
-  {
-    "id": 1756283091137,
-    "description": "christmas present",
-    "amount": 3000,
-    "tag": "gift",
-    "category": "expense",
-    "date": "Tue Aug 26 2025"
-  },
-  {
-    "id": 1756360843806,
-    "description": "nothing",
-    "amount": 35,
-    "tag": "none",
-    "category": "expense",
-    "date": "Wed Aug 27 2025"
-  }
+
 ]
